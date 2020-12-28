@@ -2,6 +2,8 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import Config from './Settings';
 
+import AccountsRoutes from './Routes/AccountsRoutes';
+
 export default class Program {
 
     private _Server: Application;
@@ -29,15 +31,15 @@ export default class Program {
         this._Server.use(express.urlencoded({ extended: false }));
 
         this._Server.use(function (req, res, next) {
-            //res.header("Access-Control-Allow-Origin", "*");
-            //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
             next();
         });
     }
 
     //ROUTES
     private routes() {
-
+        this._Server.use(AccountsRoutes);
     }
 
     async main(args?: String[]): Promise<void> {
