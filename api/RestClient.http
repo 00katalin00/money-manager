@@ -1,0 +1,11 @@
+@api = http://localhost:7000
+
+###
+POST {{api}}/api/v1/accounts/
+Content-Type: : application/json
+
+{
+    "name": "John Doe",
+    "email" : "jhon.doe@accounts.de",
+    "password" : "xxxxxxxxxxxxxxxxxx"
+}

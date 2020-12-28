@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
+import Config from './Settings';
 
 export default class Program {
 
@@ -16,7 +17,7 @@ export default class Program {
     //CONFIGURACIÓN API
 
     private settings() {
-        this._Server.set('port', "8080");
+        this._Server.set('port', Config.API_PORT);
     }
 
     //MIDDLEWARES
@@ -28,8 +29,8 @@ export default class Program {
         this._Server.use(express.urlencoded({ extended: false }));
 
         this._Server.use(function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
+            //res.header("Access-Control-Allow-Origin", "*");
+            //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
             next();
         });
     }
