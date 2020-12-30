@@ -15,12 +15,12 @@ export default class Database {
             port: parseInt(Config.PG_PORT) || 5432
         }
     }
-
-
+    
     public async connect(): Promise<Client> {
         const client = new Client(this.options);
         try {
             await client.connect();
+            console.log("DB RUNNING - > NO ERRORS");
         } catch (e) {
             throw new CustomException(-1000);
         }

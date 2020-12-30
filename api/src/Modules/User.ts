@@ -1,3 +1,6 @@
+import { Serializable } from 'child_process';
+import IUser from '../Interfaces/IUser';
+
 export default class User {
 
     private _uid: string;
