@@ -7,9 +7,9 @@ export default {
 
     LENGUAGE: process.env.LENGUAGE || "ES",
     
-    PG_DB: process.env.MYSQL_DB || "cloud",
-    PG_USER: process.env.MYSQL_USER || "cloud",
-    PG_PASSWORD: process.env.MYSQL_PASSWORD || "cloud",
-    PG_PORT: process.env.MYSQL_PORT || "5432",
-    PG_HOST: process.env.MYSQL_HOST || "localhost", 
+    PG_DB: process.env.PG_DB || "dev-money-manager",
+    PG_USER: process.env.PG_USER || "cloud",
+    PG_PASSWORD: process.env.PG_PASSWORD || "cloud",
+    PG_PORT: process.env.PG_PORT || "5432",
+    PG_HOST: process.env.PG_HOST || "localhost", 
 }

@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import Config from './Settings';
 
-import AccountsRoutes from './Routes/AccountsRoutes';
+import UserRoutes from './Routes/UserRoutes';
 
 export default class Program {
 
@@ -39,7 +39,7 @@ export default class Program {
 
     //ROUTES
     private routes() {
-        this._Server.use(AccountsRoutes);
+        this._Server.use(UserRoutes);
     }
 
     async main(args?: String[]): Promise<void> {

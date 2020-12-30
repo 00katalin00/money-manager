@@ -1,13 +1,13 @@
 import { RequestHandler, Request, Response } from 'express';
 import md5 from 'md5';
 import IStatus from '../Interfaces/IStatus';
-import IAccount from '../Interfaces/IAccount';
-import Account from '../Modules/Account';
+import IUser from '../Interfaces/IUser';
+import User from '../Modules/User';
 
-export default class AccountsController {
+export default class UserController {
 
 
-    public registerAccount: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
+    public registerUser: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
 
 
         let status: IStatus = {
@@ -15,11 +15,11 @@ export default class AccountsController {
             error: -4001
         }
 
-        const data: IAccount = req.body;
+        const data: IUser = req.body;
 
         if (data.name && data.email && data.password) {
 
-            let _Account = new Account(
+            let _Account = new User(
                 "_" + md5(data.email),
                 data.name,
                 data.email,
@@ -28,6 +28,7 @@ export default class AccountsController {
 
             try {
 
+                //CODIGO EN EJECUCIÓN
 
                 status = {
                     code: 201, // 201 Created. El request se ha completado y se ha creado un nuevo recurso.

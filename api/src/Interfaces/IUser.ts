@@ -1,4 +1,4 @@
-export default interface IAccount {
+export default interface IUser {
     uid?: string,
     name?: string,
     email?: string,
