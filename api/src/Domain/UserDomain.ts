@@ -39,7 +39,7 @@ export default class UserDomain {
 
         let _User: User | null = null;
 
-        try {
+        try { 
 
             let response = await conn.query(query);
             
