@@ -6,6 +6,16 @@ import Config from '../Settings';
 
 export default class AccountDomain {
 
+    public async getUserAccounts(user: User, conn: Client): Promise<void> {
+
+        const query: QueryConfig = {
+            name: 'get-all-accounts',
+            text: `SELECT * FROM "${Config.PG_SCHEMA}"."account" WHERE uid = $1`,
+            values: [user.getUID()]
+        }
+
+    }
+
     public async createNewAccount(acc: Account, conn: Client): Promise<number> {
 
         const query: QueryConfig = {
@@ -17,7 +27,7 @@ export default class AccountDomain {
         let success: number = 0;
 
         try {
-            
+
             let response = await conn.query(query);
             success = response.rowCount;
 
@@ -25,7 +35,7 @@ export default class AccountDomain {
 
         } catch (e) {
             throw new CustomException(-3000);
-        }finally{
+        } finally {
             return success;
         }
 

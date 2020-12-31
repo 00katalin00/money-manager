@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import Config from './Settings';
 
 import UserRoutes from './Routes/UserRoutes';
-
+import AccountRoutes from './Routes/AccountRoutes';
 export default class Program {
 
     private _Server: Application;
@@ -40,6 +40,7 @@ export default class Program {
     //ROUTES
     private routes() {
         this._Server.use(UserRoutes);
+        this._Server.use(AccountRoutes);
     }
 
     async main(args?: String[]): Promise<void> {

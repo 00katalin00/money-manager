@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 export default class UserServices {
 
-    public async getUserData(){ //SACAR INFORMACIÓN DE PERFIL DE USUARIO
+    public async getUserData() { //SACAR INFORMACIÓN DE PERFIL DE USUARIO
 
     }
 
@@ -61,7 +61,9 @@ export default class UserServices {
         user.setUID("_uid_" + md5(user.getEmail()));
 
         try {
-
+            // !!!
+            //! COMPROBAR SI EL EMAIL EXISTE ->> PENDIENTE 
+            // !!!
             conn = await _Database.connect();
 
             if (await _UserDomain.getUserByUID(user, conn) != null) {

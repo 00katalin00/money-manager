@@ -1,5 +1,6 @@
 import CustomException from '../Exception/CustomException';
 import User from '../Modules/User';
+import Account from '../Modules/Account';
 import { Client, QueryConfig } from 'pg';
 import Config from '../Settings';
 

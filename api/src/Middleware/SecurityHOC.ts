@@ -3,6 +3,8 @@ import Istatus from '../Interfaces/IStatus';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import CustomException from '../Exception/CustomException';
+
+
 export default class SecurityHOC {
 
     public async verifyToken(req: Request, res: Response, next: any) {
