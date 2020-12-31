@@ -14,6 +14,7 @@ export default class UserController {
         }
        // console.log(req.body);
         console.log('API');
+        console.log(req.header('uid'));
 
         return res.status(status.code).json({ "status": status.error });
     }

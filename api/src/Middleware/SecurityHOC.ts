@@ -6,15 +6,14 @@ import CustomException from '../Exception/CustomException';
 export default class SecurityHOC {
 
     public async verifyToken(req: Request, res: Response, next: any) {
-        console.log("MIDDLEWARE");
+
+        const token = req.header('auth-token');
 
         let status: Istatus = {
             code: 401,
             error: -99,
             data: "ACCESS DENIED"
         }
-
-        const token = req.header('auth-token');
 
         try {
 
@@ -28,54 +27,24 @@ export default class SecurityHOC {
             }
 
             const verified = jwt.verify(token, Config.SECRET_KEY);
-            console.log(verified);
 
-            next();
+            if (typeof (verified) === "object") {
+                const values = Object.values(verified);
+
+                req.headers['uid'] = values[0];
+
+                next();
+            } else {
+                throw new CustomException(-98);
+            }
 
         } catch (e) {
+            status = {
+                ...status,
+                error: e.error
+            }
             res.status(status.code).send(status);
         }
 
     }
 }
-
-/*
-export default function (req: Request, res: Response, next: any){
-    console.log("MIDDLEWARE");
-
-    let status: Istatus = {
-        code: 400,
-        error: -99
-    }
-
-    const token = req.header('auth-token');
-
-    if (token) {
-
-        try {
-
-            const verified = jwt.verify(token, Config.SECRET_KEY);
-            console.log(verified);
-            console.log(req.header.name);
-
-
-            next();
-
-        } catch (e) {
-            console.log(e);
-            status = {
-                code: 400,
-                error: e.error,
-                data: "INVALID TOKEN"
-            }
-        }
-
-    } else {
-        status = {
-            code: 401,
-            error: -99,
-            data: "ACCESS DENIED"
-        }
-    }
-}
-*/
