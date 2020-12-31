@@ -1,11 +1,22 @@
 import { RequestHandler, Request, Response } from 'express';
-import md5 from 'md5';
-import { getHeapCodeStatistics } from 'v8';
 import IStatus from '../Interfaces/IStatus';
 import IUser from '../Interfaces/IUser';
 import User from '../Modules/User';
 import UserServices from '../Services/UserServices';
 export default class UserController {
+
+
+    public getUserData: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
+        
+        let status: IStatus = {
+            code: 200, // Bad Request. El servidor no puede o no va a procesar el request por un error de sintaxis del cliente.
+            error: 0
+        }
+       // console.log(req.body);
+        console.log('API');
+
+        return res.status(status.code).json({ "status": status.error });
+    }
 
 
     public registerUser: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
@@ -15,9 +26,8 @@ export default class UserController {
             code: 400, // Bad Request. El servidor no puede o no va a procesar el request por un error de sintaxis del cliente.
             error: -4001
         }
-
         const data: IUser = req.body;
-
+        
         if (data.name && data.email && data.password) {
 
             let _User = new User(
@@ -28,11 +38,9 @@ export default class UserController {
             );
 
             try {
-
                 //CODIGO EN EJECUCIÓN
                 await new UserServices().registerUser(_User);
                 //
-
                 status = {
                     code: 201, // 201 Created. El request se ha completado y se ha creado un nuevo recurso.
                     error: 0
@@ -45,8 +53,6 @@ export default class UserController {
             }
 
         }
-
-
         return res.status(status.code).json({ "status": status.error });
     }
 
@@ -75,10 +81,6 @@ export default class UserController {
                     error: 0,
                     data: token
                 }
-
-                console.log(status);
-
-
             } catch (e) {
                 status = {
                     code: 200, // 200 OK. El request es correcto. Esta es la respuesta estándar para respuestas correctas.
@@ -86,8 +88,6 @@ export default class UserController {
                 }
             }
         }
-
-
         return res.status(status.code).json({ "status": status });
     }
 
