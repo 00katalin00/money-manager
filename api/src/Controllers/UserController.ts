@@ -3,7 +3,7 @@ import md5 from 'md5';
 import IStatus from '../Interfaces/IStatus';
 import IUser from '../Interfaces/IUser';
 import User from '../Modules/User';
-
+import UserServices from '../Services/UserServices';
 export default class UserController {
 
 
@@ -19,8 +19,8 @@ export default class UserController {
 
         if (data.name && data.email && data.password) {
 
-            let _Account = new User(
-                "_" + md5(data.email),
+            let _User = new User(
+                "",
                 data.name,
                 data.email,
                 data.password
@@ -29,12 +29,15 @@ export default class UserController {
             try {
 
                 //CODIGO EN EJECUCIÓN
+                await new UserServices().registerUser(_User);
+                //
 
                 status = {
                     code: 201, // 201 Created. El request se ha completado y se ha creado un nuevo recurso.
                     error: 0
                 }
             } catch (e) {
+                console.log(e);
                 status = {
                     code: 200, // 200 OK. El request es correcto. Esta es la respuesta estándar para respuestas correctas.
                     error: e.error

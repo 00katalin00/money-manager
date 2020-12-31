@@ -1,3 +1,5 @@
+import { POINT_CONVERSION_COMPRESSED } from "constants";
+
 export default {
     API_PORT: process.env.API_PORT || 8080,
 
@@ -12,4 +14,5 @@ export default {
     PG_PASSWORD: process.env.PG_PASSWORD || "cloud",
     PG_PORT: process.env.PG_PORT || "5432",
     PG_HOST: process.env.PG_HOST || "localhost", 
+    PG_SCHEMA: process.env.PG_SCHEMA || "DEV"
 }

@@ -1,6 +1,7 @@
 import CustomException from '../Exception/CustomException';
 import User from '../Modules/User';
 import { Client, QueryConfig } from 'pg';
+import Config from '../Settings';
 
 export default class UserDomain {
 
@@ -8,7 +9,7 @@ export default class UserDomain {
 
         const query: QueryConfig = {
             name: 'add-new-user',
-            text: 'INSERT INTO user (uid, name, email, password) VALUES ($1, $2, $3, $4)',
+            text: `INSERT INTO "${Config.PG_SCHEMA}"."user" (uid, name, email, password) VALUES ($1, $2, $3, $4)`,
             values: [user.getUID(), user.getName(), user.getEmail(), user.getPassword()]
         }
 
@@ -32,7 +33,7 @@ export default class UserDomain {
 
         const query: QueryConfig = {
             name: 'get-user-by-uid',
-            text: 'SELECT * FROM user WHERE UID = $1',
+            text: `SELECT * FROM "${Config.PG_SCHEMA}"."user" WHERE uid = $1`,
             values: [user.getUID()]
         }
 
@@ -41,7 +42,7 @@ export default class UserDomain {
         try {
 
             let response = await conn.query(query);
-
+            
             if (response.rows.length == 1) {
                 _User = new User();
 
@@ -51,8 +52,10 @@ export default class UserDomain {
                 _User.setPassword(response.rows[0].password);
 
             }
-
+            
+            console.log(response.rows.length);
         } catch (e) {
+            console.log(e);
             throw new CustomException(-2001);
         } finally {
             return _User;

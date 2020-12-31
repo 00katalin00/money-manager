@@ -15,9 +15,22 @@ export default class UserServices {
 
         let conn: null | Client = null;
 
+
+        user.setUID("_uid_" + md5(user.getEmail()));
+
         try {
 
             conn = await _Database.connect();
+
+            if (await _UserDomain.getUserByUID(user, conn) != null) {
+                throw new CustomException(-2100); //EL USUARIO YA EXISTE
+            }
+
+            let response = await _UserDomain.registerUser(user, conn);
+
+            if(response != 1){
+                throw new CustomException(-2001); // NO SE HA CREADO EL USUARIO
+            }
 
         } catch (e) {
             throw e;
