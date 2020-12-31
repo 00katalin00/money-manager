@@ -11,7 +11,7 @@ export default class UserDomain {
             name: 'add-new-user',
             text: `INSERT INTO "${Config.PG_SCHEMA}"."user" (uid, name, email, password) VALUES ($1, $2, $3, $4)`,
             values: [user.getUID(), user.getName(), user.getEmail(), user.getPassword()]
-        }
+        } 
 
         let success: number = 0;
 

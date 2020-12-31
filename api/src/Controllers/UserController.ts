@@ -1,5 +1,6 @@
 import { RequestHandler, Request, Response } from 'express';
 import md5 from 'md5';
+import { getHeapCodeStatistics } from 'v8';
 import IStatus from '../Interfaces/IStatus';
 import IUser from '../Interfaces/IUser';
 import User from '../Modules/User';
@@ -37,7 +38,6 @@ export default class UserController {
                     error: 0
                 }
             } catch (e) {
-                console.log(e);
                 status = {
                     code: 200, // 200 OK. El request es correcto. Esta es la respuesta estándar para respuestas correctas.
                     error: e.error
@@ -50,6 +50,46 @@ export default class UserController {
         return res.status(status.code).json({ "status": status.error });
     }
 
+    public loginUser: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
+
+        let status: IStatus = {
+            code: 400, // Bad Request. El servidor no puede o no va a procesar el request por un error de sintaxis del cliente.
+            error: -4001,
+            data: {}
+        }
+        const data: IUser = req.body;
+
+        if (data.email && data.password) {
+
+            let _User = new User();
+
+            _User.setEmail(data.email);
+            _User.setPassword(data.password);
+
+            try {
+
+                let token: string | null = await new UserServices().loginUser(_User);
+
+                status = {
+                    code: 200,
+                    error: 0,
+                    data: token
+                }
+
+                console.log(status);
+
+
+            } catch (e) {
+                status = {
+                    code: 200, // 200 OK. El request es correcto. Esta es la respuesta estándar para respuestas correctas.
+                    error: e.error
+                }
+            }
+        }
+
+
+        return res.status(status.code).json({ "status": status });
+    }
 
 }
 

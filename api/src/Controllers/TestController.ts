@@ -17,7 +17,7 @@ export default class UserController {
         console.log(Date.parse("2020-12-30 11:14:32.254"));
         //
 
-        return res.status(status.code).json({ "status": status.error });
+        return res.status(status.code).json("API CREADA POR CATALIN GLIGOR");
     }
 
 
