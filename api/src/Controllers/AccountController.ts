@@ -6,6 +6,7 @@ import UserServices from '../Services/UserServices';
 import AccountServices from '../Services/AccountServices';
 import Account from '../Modules/Account';
 export default class AccountController {
+    
     public createNewAccount: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
         let status: IStatus = {
             code: 200,

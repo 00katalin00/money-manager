@@ -13,6 +13,7 @@ export default class UserServices {
 
     }
 
+    public async changePassword(){}
     public async loginUser(user: User): Promise<string | null> {
 
         const _Database = new Database();

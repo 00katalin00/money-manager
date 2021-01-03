@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import UserController from '../Controllers/UserController';
-import TestController from '../Controllers/TestController';
 import Config from '../Settings';
 import SecurityHOC from '../Middleware/SecurityHOC';
 import AccountController from '../Controllers/AccountController';

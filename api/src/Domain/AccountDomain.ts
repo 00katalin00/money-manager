@@ -14,6 +14,20 @@ export default class AccountDomain {
             values: [user.getUID()]
         }
 
+        let result: Account[] ;
+
+        try {
+
+            let response = await conn.query(query);
+
+            console.log(response);
+
+        } catch (e) {
+            
+        }finally {
+
+        }
+
     }
 
     public async createNewAccount(acc: Account, conn: Client): Promise<number> {

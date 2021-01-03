@@ -46,6 +46,7 @@ export default class AccountServices {
         }
 
     }
+    public async modifyAccount(){}
     public async deleteAccount(user: User, acc: Account): Promise<void> {
 
     }
