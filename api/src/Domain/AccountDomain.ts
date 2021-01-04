@@ -6,26 +6,37 @@ import Config from '../Settings';
 
 export default class AccountDomain {
 
-    public async getUserAccounts(user: User, conn: Client): Promise<void> {
+    public async getUserAccounts(usr: User, conn: Client): Promise<Account[]> {
 
         const query: QueryConfig = {
             name: 'get-all-accounts',
             text: `SELECT * FROM "${Config.PG_SCHEMA}"."account" WHERE uid = $1`,
-            values: [user.getUID()]
+            values: [usr.getUID()]
         }
 
-        let result: Account[] ;
+        let result: Account[] = [];
+        let _Account: Account | null = null;
 
         try {
 
             let response = await conn.query(query);
 
-            console.log(response);
+            if (response.rows.length > 0) {
+                for (let i = 0; i < response.rows.length; i++) {
+
+                    _Account = new Account();
+                    _Account.setName(response.rows[i].name);
+                    _Account.setAID(response.rows[i].aid);
+                    _Account.setUID(response.rows[i].uid);
+
+                    result.push(_Account);
+                }
+            }
 
         } catch (e) {
-            
-        }finally {
-
+            throw new CustomException(-3020);
+        } finally {
+            return result;
         }
 
     }

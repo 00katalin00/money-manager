@@ -6,21 +6,64 @@ import UserDomain from '../Domain/UserDomain';
 import { Client } from 'pg';
 import Config from '../Settings';
 import jwt from 'jsonwebtoken';
+import AccountDomain from '../Domain/AccountDomain';
+import IProfile from '../Interfaces/IProfile';
+import Account from '../Modules/Account';
 
 export default class UserServices {
 
-    public async getUserData() { //SACAR INFORMACIÓN DE PERFIL DE USUARIO
+    public async getUserProfile(usr: User): Promise<IProfile | null> { //SACAR INFORMACIÓN DE PERFIL DE USUARIO
 
+        const _Database = new Database();
+        const _UserDomain = new UserDomain();
+        const _AccountDomain = new AccountDomain();
+
+        let conn: null | Client = null;
+        let profile: IProfile;
+        let AccountsToObject;
+
+        try {
+            conn = await _Database.connect();
+
+            let response: User | null = await _UserDomain.getUserByUID(usr, conn);
+
+            if (!response) {
+                throw new CustomException(-2200); //EL USUARIO NO EXISTE
+            }
+
+            profile = {
+                name: response.getName(),
+                email: response.getEmail(),
+                accounts: []
+            }
+
+            let accounts: Account[] = await _AccountDomain.getUserAccounts(usr, conn);
+
+            for (let i = 0; i < accounts.length; i++) {
+                if (accounts[i].getUID() === usr.getUID()) {
+
+                    AccountsToObject = {
+                        aid: accounts[i].getAID(),
+                        name: accounts[i].getName()
+                    }
+                    profile.accounts.push(AccountsToObject);
+                }
+            }
+
+        } catch (e) {
+            throw e;
+        } finally {
+            _Database.disconnect(conn);
+        }
+        return profile;
     }
 
-    public async changePassword(){}
     public async loginUser(user: User): Promise<string | null> {
 
         const _Database = new Database();
         const _UserDomain = new UserDomain();
 
         let conn: null | Client = null;
-
         let token: string | null = null;
 
         user.setUID("_uid_" + md5(user.getEmail()));
@@ -58,7 +101,6 @@ export default class UserServices {
 
         let conn: null | Client = null;
 
-
         user.setUID("_uid_" + md5(user.getEmail()));
 
         try {
@@ -83,10 +125,6 @@ export default class UserServices {
             _Database.disconnect(conn);
         }
     }
-
-
-
-
 
     // uid ->  _uid_"md5(email)""
 }

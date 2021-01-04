@@ -5,20 +5,36 @@ import User from '../Modules/User';
 import UserServices from '../Services/UserServices';
 export default class UserController {
 
+    
 
     public getUserData: RequestHandler = async (req: Request, res: Response): Promise<Response> => {
-        
+
         let status: IStatus = {
-            code: 200, // Bad Request. El servidor no puede o no va a procesar el request por un error de sintaxis del cliente.
+            code: 200,
             error: 0
         }
-       // console.log(req.body);
-        console.log('API');
+        const uid = req.header('uid');
 
-        
-        console.log(req.header('uid'));
+        try {
+            if (uid) {
+                const _User = new User();
+                _User.setUID(uid);
 
-        return res.status(status.code).json({ "status": status.error });
+                let response = await new UserServices().getUserProfile(_User);
+
+                status = {
+                    ...status,
+                    data: response
+                }
+            }
+        } catch (e) {
+            status = {
+                code: 200, // 200 OK. El request es correcto. Esta es la respuesta estándar para respuestas correctas.
+                error: e.error
+            }
+        }
+
+        return res.status(status.code).json({ status });
     }
 
 
@@ -30,7 +46,7 @@ export default class UserController {
             error: -4001
         }
         const data: IUser = req.body;
-        
+
         if (data.name && data.email && data.password) {
 
             let _User = new User(

@@ -53,10 +53,8 @@ export default class UserDomain {
                 _User.setPassword(response.rows[0].password);
 
             }
-            
-            console.log(response.rows.length);
+
         } catch (e) {
-            console.log(e);
             throw new CustomException(-2001);
         } finally {
             return _User;
